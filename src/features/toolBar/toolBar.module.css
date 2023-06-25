@@ -1,0 +1,31 @@
+.toolBar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 60px;
+  background-color: #333333;
+  border: 1px #333333;
+}
+.logoBlock {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 700;
+}
+.btn {
+  width: 103px;
+  height: 36px;
+  background-color: #8c61ff;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 700;
+  text-decoration: none;
+  text-align: center;
+}
