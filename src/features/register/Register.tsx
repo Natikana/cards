@@ -30,16 +30,19 @@ export const Register = () => {
         if (res.profile) {
           navigate("/login")
         }
-        console.log("res", res)
       })
-      .catch()
+    /*.catch((e) => {
+        debugger
+        console.log(e)
+      })*/
   })
 
   const onHandlerSubmit = () => {
+    console.log(setValue("password", getValues("password")))
     setValue("email", getValues("email"))
     setValue("password", getValues("password"))
   }
-  let val: null | string = null
+  //let val: null | string = null
   return (
     <div
       style={{
@@ -74,14 +77,18 @@ export const Register = () => {
           type={"email"}
           style={{ height: "40px", width: "250px" }}
         />
-        {errors?.email?.type === "required" && <p>This field is required</p>}
+        {errors?.email?.type === "required" && (
+          <p style={{ color: "red" }}>This field is required</p>
+        )}
         {errors?.email?.type === "maxLength" && (
-          <p>Email cannot more 30 characters</p>
+          <p style={{ color: "red" }}>Email cannot more 30 characters</p>
         )}
         {errors?.email?.type === "minLength" && (
-          <p>Email cannot less 8 characters</p>
+          <p style={{ color: "red" }}>Email cannot less 8 characters</p>
         )}
-        {errors?.email?.type === "pattern" && <p>Invalid email address</p>}
+        {errors?.email?.type === "pattern" && (
+          <p style={{ color: "red" }}>Invalid email address</p>
+        )}
         <input
           {...register("password", {
             required: true,
@@ -96,14 +103,18 @@ export const Register = () => {
           type={"password"}
           style={{ height: "40px", width: "250px" }}
         />
-        {errors?.password?.type === "required" && <p>This field is required</p>}
+        {errors?.password?.type === "required" && (
+          <p style={{ color: "green" }}>This field is required</p>
+        )}
         {errors?.password?.type === "maxLength" && (
-          <p>Password cannot more 20 characters</p>
+          <p style={{ color: "red" }}>Password cannot more 20 characters</p>
         )}
         {errors?.password?.type === "minLength" && (
-          <p>Password cannot less 8 characters</p>
+          <p style={{ color: "red" }}>Password cannot less 8 characters</p>
         )}
-        {errors?.password?.type === "pattern" && <p>Invalid password</p>}
+        {errors?.password?.type === "pattern" && (
+          <p style={{ color: "red" }}>Invalid password</p>
+        )}
 
         <input
           {...register("confirm_password", {
@@ -113,6 +124,7 @@ export const Register = () => {
                 setError("Your passwords do no match")
                 return "Your passwords do no match"
               }
+              setError("")
             },
           })}
           placeholder={"confirm password"}

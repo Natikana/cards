@@ -6,16 +6,10 @@
   background-color: #333333;
   border: 1px #333333;
 }
-.logoBlock {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+
 .logo {
-  color: #ffffff;
-  font-size: 14px;
-  line-height: 24px;
-  font-weight: 700;
+  width: 156px;
+  height: 36px;
 }
 .btn {
   width: 103px;
@@ -24,7 +18,7 @@
   border-radius: 4px;
   color: #ffffff;
   font-size: 14px;
-  line-height: 24px;
+  line-height: 30px;
   font-weight: 700;
   text-decoration: none;
   text-align: center;

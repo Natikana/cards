@@ -1,5 +1,6 @@
 .app {
   box-sizing: border-box;
   margin: 0 auto;
-  /*background-color: #3d3d3d;*/
+  background-color: #000;
+  min-height: 100vh;
 }

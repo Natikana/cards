@@ -26,7 +26,7 @@ export const authApi = {
       UpdateUserType
     >("me", params)
   },
-  meLogout: ({}) => {
+  logout: ({}) => {
     return authInstance.delete<InfoUserType, AxiosResponse<InfoUserType>, {}>(
       "me",
       {},

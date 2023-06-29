@@ -1,115 +1,46 @@
 import "../../App.css"
-import React, { FC, PropsWithChildren, useEffect } from "react"
-import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom"
-import { Login } from "../login/Login"
-import { NewPassword } from "../newPassword/NewPassword"
-import { ForgotPassword } from "../forgotPassword/ForgotPassword"
-import { Profile } from "../profile/Profile"
-import { Packs } from "../packs/Packs"
-import { Cards } from "../cards/Cards"
-import { Learn } from "../learn/Learn"
+import React, { useEffect } from "react"
+import { RouterProvider } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "@/main/hooks"
-import { Register } from "../register/Register"
-import { ToolBar } from "../toolBar/ToolBar"
 import cl from "./app.module.css"
 import { authThunk } from "../auth/auth.slice"
-
-const AuthGuard: FC<PropsWithChildren & { isPrivate?: boolean }> = ({
-  children,
-  isPrivate = false,
-}) => {
-  const isAuth = useAppSelector((state) => state.auth.isAuth)
-  if (isPrivate) {
-    return isAuth ? <>{children}</> : <Navigate to={"/login"} replace />
-  }
-  return isAuth ? <Navigate to={"/cards"} replace /> : <>{children}</>
-}
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Navigate to="/profile" />,
-  },
-  {
-    element: (
-      <AuthGuard isPrivate>
-        <Profile />
-      </AuthGuard>
-    ),
-    path: "/profile",
-  },
-  {
-    path: "/packs",
-    element: (
-      <AuthGuard isPrivate>
-        <Packs />
-      </AuthGuard>
-    ),
-  },
-  {
-    path: "/cards",
-    element: (
-      <AuthGuard isPrivate>
-        <Cards />
-      </AuthGuard>
-    ),
-  },
-  {
-    path: "/learn",
-    element: (
-      <AuthGuard isPrivate>
-        <Learn />
-      </AuthGuard>
-    ),
-  },
-  {
-    path: "/login",
-    element: (
-      <AuthGuard>
-        <Login />
-      </AuthGuard>
-    ),
-  },
-  {
-    path: "/register",
-    element: (
-      <AuthGuard>
-        <Register />
-      </AuthGuard>
-    ),
-  },
-  {
-    path: "/new-password/:token",
-    element: (
-      <AuthGuard>
-        <NewPassword />
-      </AuthGuard>
-    ),
-  },
-  {
-    path: "/forgot-password",
-    element: (
-      <AuthGuard>
-        <ForgotPassword />
-      </AuthGuard>
-    ),
-  },
-])
+import { router } from "@/common/routes/commonRoutes"
+import { ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+import { Loader } from "@/common/loading/Loader"
+import { Statuses } from "@/features/app/app.slice"
 
 export function App() {
   console.log("app")
   const dispatch = useAppDispatch()
   const isInitialized = useAppSelector((state) => state.auth.isInitialized)
+  //const isLoading = useAppSelector((state) => state.app.isLoading)
 
   useEffect(() => {
     dispatch(authThunk.me({}))
   }, [])
 
-  if (!isInitialized) return <p>Loading...</p>
+  if (!isInitialized)
+    return (
+      <div>
+        <Loader />
+      </div>
+    )
 
   return (
     <div className={cl.app}>
-      <ToolBar />
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <RouterProvider router={router} />
     </div>
   )
