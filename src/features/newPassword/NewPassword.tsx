@@ -21,7 +21,6 @@ export const NewPassword = () => {
     getValues,
   } = useForm<SetNewPasswordType>()
   const params = useParams()
-  console.log({ params })
 
   const onSubmit = handleSubmit((data: SetNewPasswordType) => {
     const payload = {
@@ -31,7 +30,6 @@ export const NewPassword = () => {
     dispatch(authThunk.setNewPassword(payload))
       .unwrap()
       .then((res) => {
-        console.log("res", res)
         if (res.info) {
           return navigate("/login")
         }

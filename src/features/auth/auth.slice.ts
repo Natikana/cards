@@ -24,7 +24,7 @@ export const THUNK_PREFIX = {
   SET_NEW_PASSWORD: "auth/setNewPassword",
 }
 const slice = createSlice({
-  name: "auth/register",
+  name: "auth",
   initialState: {
     error: null as null | string | undefined,
     profile: {} as ProfileType,
@@ -43,7 +43,6 @@ const slice = createSlice({
       state.isInitialized = action.payload.isInitialized
     },
     setProfile: (state, action: PayloadAction<{ profile: ProfileType }>) => {
-      console.log("stateP", action)
       state.profile = action.payload.profile
     },
     setLoginIn: (state, action: PayloadAction<{ isAuth: boolean }>) => {
@@ -51,13 +50,8 @@ const slice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(register.fulfilled, (state, action) => {
-      console.log("register.fulfilled", action)
-    })
+    builder.addCase(register.fulfilled, (state, action) => {})
     builder.addCase(register.rejected, (state, action) => {
-      console.log(action)
-      console.log("register.rejected")
-
       state.error = action.error.message
     })
     builder.addCase(login.fulfilled, (state) => {
@@ -67,46 +61,37 @@ const slice = createSlice({
       state.error = action.error.message
     })
     builder.addCase(me.fulfilled, (state, action) => {
-      console.log("actionMeF", action)
       state.profile = action.payload.profile
       state.isAuth = true
       state.isInitialized = true
     })
     builder.addCase(me.rejected, (state, action) => {
-      console.log("actionMErej", action.type)
       state.isInitialized = true
       state.error = action.error.message
     })
     builder.addCase(meUpdate.fulfilled, (state, action) => {
-      console.log("meUFul", action.payload.profile)
       state.profile = action.payload.profile.updatedUser
     })
     builder.addCase(meUpdate.rejected, (state, action) => {
-      console.log("meURej", action)
       state.error = action.error.message
     })
     builder.addCase(logout.fulfilled, (state, action) => {
       state.isAuth = false
     })
     builder.addCase(logout.rejected, (state, action) => {
-      console.log("meDrej", action.type)
       state.error = action.error.message
     })
     builder.addCase(forgotPassword.fulfilled, (state, action) => {
-      console.log("forgot", action)
       state.info = action.payload.info.info
     })
     builder.addCase(forgotPassword.rejected, (state, action) => {
       state.profile.name = action.type
-      console.log("forgotR", action.type)
     })
     builder.addCase(setNewPassword.fulfilled, (state, action) => {
-      console.log("setNewPassword", action)
       state.info = action.payload.info.info
     })
     builder.addCase(setNewPassword.rejected, (state, action) => {
       //state.profile.updated = action.type
-      console.log("setNewPasswordR", action.type)
     })
     /* builder.addCase(blockUser.fulfilled, (state, action) => {
       console.log("block", action)

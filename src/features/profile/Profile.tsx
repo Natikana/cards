@@ -8,7 +8,6 @@ export type Props = {
   //updateProfileInfo: (name?: string, avatar?: string) => void
 }
 export const Profile: FC<Props> = () => {
-  console.log("profile")
   const profile = useAppSelector((state) => state.auth.profile)
   const dispatch = useAppDispatch()
 

@@ -14,7 +14,6 @@ import { useAppDispatch, useAppSelector } from "@/main/hooks"
 import { Outlet } from "react-router-dom"
 
 export function Counter() {
-  console.log("Counter")
   const count = useAppSelector(selectCount)
   const dispatch = useAppDispatch()
   const [incrementAmount, setIncrementAmount] = useState("2")

@@ -8,10 +8,8 @@ import { router } from "@/common/routes/commonRoutes"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { Loader } from "@/common/loading/Loader"
-import { Statuses } from "@/features/app/app.slice"
 
 export function App() {
-  console.log("app")
   const dispatch = useAppDispatch()
   const isInitialized = useAppSelector((state) => state.auth.isInitialized)
   //const isLoading = useAppSelector((state) => state.app.isLoading)

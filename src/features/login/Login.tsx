@@ -7,8 +7,6 @@ import { Link, useNavigate } from "react-router-dom"
 import cl from "./Login.module.css"
 
 export const Login = () => {
-  console.log("login")
-
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
@@ -19,7 +17,6 @@ export const Login = () => {
     setValue,
     getValues,
   } = useForm<LoginType>()
-  console.log(errors)
 
   const onSubmit = handleSubmit((data: LoginType) => {
     dispatch(authThunk.login(data))
@@ -28,7 +25,6 @@ export const Login = () => {
         if (res.profile) {
           navigate("/cards")
         }
-        console.log("res", res)
       })
       .catch()
   })

@@ -8,11 +8,10 @@ import { AppDispatch } from "@/main/store"
 import { useDispatch } from "react-redux"
 
 export const Register = () => {
-  console.log("Register")
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const isAuth = useAppSelector((state) => state.auth.isAuth)
-  let [error, setError] = useState<string | null>()
+  //let [error, setError] = useState<string | null>()
   const {
     register,
     handleSubmit,
@@ -20,8 +19,8 @@ export const Register = () => {
     setValue,
     getValues,
     watch,
+    setError,
   } = useForm<RegisterType & { confirm_password: string }>()
-  console.log(getValues)
 
   const onSubmit = handleSubmit((data: RegisterType) => {
     dispatch(authThunk.register(data))
@@ -31,18 +30,16 @@ export const Register = () => {
           navigate("/login")
         }
       })
-    /*.catch((e) => {
-        debugger
-        console.log(e)
-      })*/
+      .catch((e) => {
+        console.error("error")
+      })
   })
 
   const onHandlerSubmit = () => {
-    console.log(setValue("password", getValues("password")))
     setValue("email", getValues("email"))
     setValue("password", getValues("password"))
   }
-  //let val: null | string = null
+
   return (
     <div
       style={{
@@ -120,18 +117,26 @@ export const Register = () => {
           {...register("confirm_password", {
             required: true,
             validate: (val: string) => {
-              if (watch("password") != val) {
-                setError("Your passwords do no match")
+              if (watch("password") !== val) {
+                errors.password
+                  ? setError("confirm_password", {
+                      type: "manual",
+                      message: "Your passwords do no match",
+                    })
+                  : null
                 return "Your passwords do no match"
               }
-              setError("")
             },
           })}
           placeholder={"confirm password"}
           type={"password"}
           style={{ height: "40px", width: "250px" }}
         />
-        {error && <span style={{ color: "red" }}>{error}</span>}
+        {errors.confirm_password && (
+          <span style={{ color: "red" }}>
+            {errors.confirm_password.message}
+          </span>
+        )}
 
         <button
           type={"submit"}

@@ -37,7 +37,6 @@ const slice = createSlice({
         return action.type.endsWith("rejected")
       },
       (state, { payload: { error } }) => {
-        debugger
         state.isLoading = Statuses.failed
         const messageError = getErrorMessage(error)
         if (messageError === null) return
@@ -56,7 +55,6 @@ const slice = createSlice({
 })
 
 const getErrorMessage = (error: unknown): string | null => {
-  debugger
   if (isAxiosError(error)) {
     if (THUNK_PREFIX.ME + "/rejected" && error?.response?.status === 401) {
       return null

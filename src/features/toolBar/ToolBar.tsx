@@ -8,10 +8,9 @@ import { Loader } from "@/common/loading/Loader"
 import { Statuses } from "@/features/app/app.slice"
 
 export const ToolBar: FC<PropsWithChildren> = ({ children }) => {
-  console.log("ToolBar")
   const dispatch = useAppDispatch()
   const isLoading = useAppSelector((state) => state.app.isLoading)
-  console.log(isLoading)
+
   return (
     <>
       <div className={cl.toolBar}>
