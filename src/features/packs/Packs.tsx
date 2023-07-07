@@ -16,7 +16,6 @@ export const Packs = () => {
   const my_id = useAppSelector((state) => state.auth.profile._id)
 
   const [search, setSearch] = useSearchParams()
-
   const [value, setValue] = useState<string>("")
   const debouncedValue = useDebounce<string>(value, 500)
 
@@ -34,16 +33,12 @@ export const Packs = () => {
 
   useEffect(() => {
     dispatch(packsThunk.getsPack({ page: params?.page }))
-  }, [params?.user_id, params?.packName])
+  }, [params?.user_id, params?.packName, params?.min, params?.max])
 
   useEffect(() => {
-    if (!value) return
-    dispatch(
-      packsThunk.getsPack({
-        packName: value,
-      }),
-    )
+    dispatch(setParams({ packName: value }))
   }, [debouncedValue])
+
   const onHandlerCreateUser = () => {
     dispatch(
       packsThunk.createPack({
@@ -71,10 +66,12 @@ export const Packs = () => {
   }
   const onHandlerClearFilter = () => {
     const s = Object.fromEntries(search)
-    const { user_id, packName, ...new_s } = s
+    const { user_id, packName, min, max, ...new_s } = s
+    console.log("min", min)
     setSearch({ ...new_s })
     dispatch(clearParams())
     setValue("")
+    console.log(params)
   }
   return (
     <div className={cl.packs}>

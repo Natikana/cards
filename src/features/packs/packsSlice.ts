@@ -42,8 +42,9 @@ const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getsPack.fulfilled, (state, action) => {
-      state.page = action.payload.page
-      state.cardPacks = action.payload.cardPacks
+      // state.page = action.payload.page
+      // state.cardPacks = action.payload.cardPacks
+      return { ...state, ...action.payload }
     })
     builder.addCase(createPack.fulfilled, (state, action) => {
       state.cardPacks.unshift(action.payload.newCardsPack)
@@ -95,7 +96,7 @@ export const getsPack = createAppAsyncThunk<ResponsePacksType, GetPackType>(
     return thunkTryCatch(thunkAPI, async () => {
       const params = thunkAPI.getState().packs.params
       const res = await packsApi.getPack(params ?? {})
-      thunkAPI.dispatch(setParams(arg))
+      //thunkAPI.dispatch(setParams(arg))
 
       return res.data
     })
