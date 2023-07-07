@@ -6,9 +6,8 @@ import MuiInput from "@mui/material/Input"
 import { Slider } from "@mui/material"
 import { useSearchParams } from "react-router-dom"
 import { useEffect } from "react"
-import { packsThunk, setParams } from "@/features/packs/packsSlice"
+import { setParams } from "@/features/packs/packsSlice"
 import { useAppDispatch, useAppSelector } from "@/main/hooks"
-import { GetPackType } from "@/features/packs/packsApi/packsApi"
 
 const Input = styled(MuiInput)`
   width: 42px;
@@ -63,9 +62,9 @@ export const SearchSlider = () => {
     dispatch(setParams({ min: value[0], max: +event.currentTarget.value }))
   }
 
-  /*function valuetext(value: number) {
-      return `${value}°C`
-    }*/
+  function valuetext(value: number) {
+    return `${value}°C`
+  }
   /* const handleBlur = () => {
       if (+value[0] < 0) {
         setValue([0])
@@ -82,6 +81,7 @@ export const SearchSlider = () => {
     }*/
   const handleChange = (event: Event, newValue: any) => {
     const s = Object.fromEntries(search)
+
     setSearch({ ...s, min: newValue[0], max: newValue[1] })
     setValue(newValue as number[])
   }
@@ -122,8 +122,8 @@ export const SearchSlider = () => {
             onChangeCommitted={handleChangeCommited}
             onChange={handleChange}
             valueLabelDisplay="auto"
-            max={maxCards}
-            /* getAriaValueText={valuetext}*/
+            max={maxCards ?? 100}
+            getAriaValueText={valuetext}
           />
         </Grid>
         <Grid item>

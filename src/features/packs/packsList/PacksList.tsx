@@ -14,10 +14,10 @@ import UpdateIcon from "@mui/icons-material/Update"
 import VisibilityIcon from "@mui/icons-material/Visibility"
 import DeleteIcon from "@mui/icons-material/Delete"
 import { IconButton } from "@mui/material"
+import TableSortLabel from "@mui/material/TableSortLabel"
 
 export const PacksList = () => {
   const packs = useAppSelector((state) => state.packs.cardPacks)
-  const page = useAppSelector((state) => state.packs.page)
   const isLoading = useAppSelector((state) => state.app.isLoading)
   const my_id = useAppSelector((state) => state.auth.profile._id)
   const dispatch = useAppDispatch()
@@ -51,7 +51,7 @@ export const PacksList = () => {
     dispatch(packsThunk.removePack({ _id: idPack }))
   }
 
-  return (
+  return packs.length ? (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
@@ -77,7 +77,7 @@ export const PacksList = () => {
                 </TableCell>
                 <TableCell align="center">{row.user_name}</TableCell>
                 <TableCell align="center">
-                  <IconButton disabled={isLoading === Statuses.loading}>
+                  <IconButton disabled={row.cardsCount === 0}>
                     <VisibilityIcon />
                   </IconButton>
                   {row.user_id === my_id && (
@@ -103,5 +103,14 @@ export const PacksList = () => {
         </TableBody>
       </Table>
     </TableContainer>
+  ) : (
+    <h2
+      style={{
+        color: "whitesmoke",
+      }}
+    >
+      "Ups, The packs with current names are found. Try to change parameters of
+      searching"
+    </h2>
   )
 }

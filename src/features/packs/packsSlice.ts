@@ -23,7 +23,7 @@ const slice = createSlice({
   initialState: {
     cardPacks: [] as PackType[],
     page: 1,
-    pageCount: 4,
+    pageCount: 10,
     cardPacksTotalCount: 2000,
     minCardsCount: 0,
     maxCardsCount: 100,

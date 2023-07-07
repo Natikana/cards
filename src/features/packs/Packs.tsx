@@ -8,11 +8,13 @@ import { Statuses } from "@/features/app/app.slice"
 import { useDebounce } from "@/common/utils/debounce/debounse"
 import { SearchSlider } from "@/features/packs/slider/SearchSlider"
 import { GetPackType } from "@/features/packs/packsApi/packsApi"
+import { PaginationPacks } from "@/features/packs/paginationPacks/PaginationPacks"
 
 export const Packs = () => {
   const dispatch = useAppDispatch()
   const isLoading = useAppSelector((state) => state.app.isLoading)
   const params = useAppSelector((state) => state.packs.params)
+  const cardPacks = useAppSelector((state) => state.packs.cardPacks)
   const my_id = useAppSelector((state) => state.auth.profile._id)
 
   const [search, setSearch] = useSearchParams()
@@ -24,7 +26,6 @@ export const Packs = () => {
       dispatch(setParams({ ...Object.fromEntries(search) }))
       const packName = ({ ...Object.fromEntries(search) } as GetPackType)
         ?.packName
-
       if (packName) {
         setValue(packName)
       }
@@ -33,9 +34,17 @@ export const Packs = () => {
 
   useEffect(() => {
     dispatch(packsThunk.getsPack({ page: params?.page }))
-  }, [params?.user_id, params?.packName, params?.min, params?.max])
+  }, [
+    params?.user_id,
+    params?.packName,
+    params?.min,
+    params?.max,
+    params?.page,
+    params?.pageCount,
+  ])
 
   useEffect(() => {
+    console.log("packName", value)
     dispatch(setParams({ packName: value }))
   }, [debouncedValue])
 
@@ -66,8 +75,7 @@ export const Packs = () => {
   }
   const onHandlerClearFilter = () => {
     const s = Object.fromEntries(search)
-    const { user_id, packName, min, max, ...new_s } = s
-    console.log("min", min)
+    const { user_id, packName, min, max, page, pageCount, ...new_s } = s
     setSearch({ ...new_s })
     dispatch(clearParams())
     setValue("")
@@ -124,6 +132,7 @@ export const Packs = () => {
         </div>
       </div>
       <PacksList />
+      <PaginationPacks />
     </div>
   )
 }
