@@ -15,26 +15,16 @@ import VisibilityIcon from "@mui/icons-material/Visibility"
 import DeleteIcon from "@mui/icons-material/Delete"
 import { IconButton } from "@mui/material"
 import TableSortLabel from "@mui/material/TableSortLabel"
+import { loadingSelector } from "@/features/app/app.selector"
+import { profileSelector } from "@/features/auth/auth.selector"
+import { useSelector } from "react-redux"
+import { cardPacksSelector } from "@/features/packs/packs.selector"
 
 export const PacksList = () => {
-  const packs = useAppSelector((state) => state.packs.cardPacks)
-  const isLoading = useAppSelector((state) => state.app.isLoading)
-  const my_id = useAppSelector((state) => state.auth.profile._id)
+  const packs = useSelector(cardPacksSelector)
+  const isLoading = useSelector(loadingSelector)
+  const my_id = useSelector(profileSelector)._id
   const dispatch = useAppDispatch()
-
-  //const [params, setSearchParams] = useSearchParams()
-
-  //const allParams = Object.fromEntries(params)
-  //console.log("allParams", allParams)
-  /*function createData(
-        Name: string,
-        Cards: number,
-        LastUpdated: string,
-        CreatedBy: string,
-        Setting: string,
-      ) {
-        return { Name, Cards, LastUpdated, CreatedBy, Setting }
-      }*/
 
   const onHandlerUpdatePack = (pack: PackType) => {
     dispatch(

@@ -1,11 +1,7 @@
 import React from "react"
 import { useAppDispatch } from "@/main/hooks"
 import { useForm } from "react-hook-form"
-import {
-  ForgotUserType,
-  InfoUserType,
-  SetNewPasswordType,
-} from "@/features/auth/auth.api/auth.api"
+import { SetNewPasswordType } from "@/features/auth/auth.api/auth.api"
 import { authThunk } from "@/features/auth/auth.slice"
 import { useNavigate, useParams } from "react-router-dom"
 

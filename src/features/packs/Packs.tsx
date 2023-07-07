@@ -9,13 +9,16 @@ import { useDebounce } from "@/common/utils/debounce/debounse"
 import { SearchSlider } from "@/features/packs/slider/SearchSlider"
 import { GetPackType } from "@/features/packs/packsApi/packsApi"
 import { PaginationPacks } from "@/features/packs/paginationPacks/PaginationPacks"
+import { useSelector } from "react-redux"
+import { loadingSelector } from "@/features/app/app.selector"
+import { paramsSelector } from "@/features/packs/packs.selector"
+import { profileSelector } from "@/features/auth/auth.selector"
 
 export const Packs = () => {
   const dispatch = useAppDispatch()
-  const isLoading = useAppSelector((state) => state.app.isLoading)
-  const params = useAppSelector((state) => state.packs.params)
-  const cardPacks = useAppSelector((state) => state.packs.cardPacks)
-  const my_id = useAppSelector((state) => state.auth.profile._id)
+  const isLoading = useSelector(loadingSelector)
+  const params = useSelector(paramsSelector)
+  const my_id = useSelector(profileSelector)._id
 
   const [search, setSearch] = useSearchParams()
   const [value, setValue] = useState<string>("")
@@ -44,7 +47,6 @@ export const Packs = () => {
   ])
 
   useEffect(() => {
-    console.log("packName", value)
     dispatch(setParams({ packName: value }))
   }, [debouncedValue])
 
@@ -75,7 +77,7 @@ export const Packs = () => {
   }
   const onHandlerClearFilter = () => {
     const s = Object.fromEntries(search)
-    const { user_id, packName, min, max, page, pageCount, ...new_s } = s
+    const { user_id, packName, min, max, page, ...new_s } = s
     setSearch({ ...new_s })
     dispatch(clearParams())
     setValue("")

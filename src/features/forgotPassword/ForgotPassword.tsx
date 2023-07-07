@@ -4,12 +4,7 @@ import { useAppDispatch } from "@/main/hooks"
 import { authThunk } from "@/features/auth/auth.slice"
 import { useForm } from "react-hook-form"
 import { ForgotUserType } from "@/features/auth/auth.api/auth.api"
-/*{
-    from: "hello82@gmail.com",
-        email: "mashkovski82@gmail.com",
-    message: `<div>password recovery link:<a href='http://localhost:3000/#/set-new-password/$token$'>link
-</a></div>`,
-}*/
+
 export const ForgotPassword = () => {
   const dispatch = useAppDispatch()
 

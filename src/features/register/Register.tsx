@@ -1,17 +1,19 @@
 import React, { useState } from "react"
-import { useAppDispatch, useAppSelector } from "../../main/hooks"
 import { authThunk } from "../auth/auth.slice"
 import { useForm } from "react-hook-form"
 import { LoginType, RegisterType } from "../auth/auth.api/auth.api"
 import { Link, Navigate, useNavigate } from "react-router-dom"
 import { AppDispatch } from "@/main/store"
 import { useDispatch } from "react-redux"
+import { isAuthSelector } from "@/features/auth/auth.selector"
+import { useSelector } from "react-redux"
+import { useAppDispatch } from "@/main/hooks"
 
 export const Register = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const isAuth = useAppSelector((state) => state.auth.isAuth)
-  //let [error, setError] = useState<string | null>()
+  const isAuth = useSelector(isAuthSelector)
+
   const {
     register,
     handleSubmit,

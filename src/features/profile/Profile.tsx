@@ -2,13 +2,15 @@ import React, { ChangeEvent, FC, useState } from "react"
 import { useAppDispatch, useAppSelector } from "@/main/hooks"
 import cl from "./profile.module.css"
 import { authThunk } from "../auth/auth.slice"
+import { useSelector } from "react-redux"
+import { profileSelector } from "@/features/auth/auth.selector"
 
 export type Props = {
   //userName: string
   //updateProfileInfo: (name?: string, avatar?: string) => void
 }
 export const Profile: FC<Props> = () => {
-  const profile = useAppSelector((state) => state.auth.profile)
+  const profile = useSelector(profileSelector)
   const dispatch = useAppDispatch()
 
   const [mode, setMode] = useState(false)

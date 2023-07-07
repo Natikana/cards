@@ -1,18 +1,19 @@
 import "../../App.css"
 import React, { useEffect } from "react"
 import { RouterProvider } from "react-router-dom"
-import { useAppDispatch, useAppSelector } from "@/main/hooks"
+import { useAppDispatch } from "@/main/hooks"
 import cl from "./app.module.css"
 import { authThunk } from "../auth/auth.slice"
 import { router } from "@/common/routes/commonRoutes"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { Loader } from "@/common/loading/Loader"
+import { isInitializedSelector } from "@/features/auth/auth.selector"
+import { useSelector } from "react-redux"
 
 export function App() {
   const dispatch = useAppDispatch()
-  const isInitialized = useAppSelector((state) => state.auth.isInitialized)
-  //const isLoading = useAppSelector((state) => state.app.isLoading)
+  const isInitialized = useSelector(isInitializedSelector)
 
   useEffect(() => {
     dispatch(authThunk.me({}))
@@ -29,7 +30,7 @@ export function App() {
     <div className={cl.app}>
       <ToastContainer
         position="top-center"
-        autoClose={2000}
+        autoClose={1000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

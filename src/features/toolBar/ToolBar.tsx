@@ -2,14 +2,16 @@ import cl from "./toolBar.module.css"
 import React, { FC, PropsWithChildren } from "react"
 import logo from "@/commonAccess/Logo.png"
 import { authThunk } from "@/features/auth/auth.slice"
-import { useAppDispatch, useAppSelector } from "@/main/hooks"
+import { useAppDispatch } from "@/main/hooks"
 import { Link } from "react-router-dom"
 import { Loader } from "@/common/loading/Loader"
 import { Statuses } from "@/features/app/app.slice"
+import { useSelector } from "react-redux"
+import { loadingSelector } from "@/features/app/app.selector"
 
 export const ToolBar: FC<PropsWithChildren> = ({ children }) => {
   const dispatch = useAppDispatch()
-  const isLoading = useAppSelector((state) => state.app.isLoading)
+  const isLoading = useSelector(loadingSelector)
 
   return (
     <>
