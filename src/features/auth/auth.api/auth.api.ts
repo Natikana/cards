@@ -101,7 +101,7 @@ export type ProfileType = {
   __v: number
   token: string
   tokenDeathTime: number
-  avatar?: null
+  avatar?: string
 }
 
 export type UpdateProfile = {

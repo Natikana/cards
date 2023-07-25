@@ -5,12 +5,12 @@ import { ErrorPage } from "@/features/errorPage/ErrorPage"
 import { Profile } from "@/features/profile/Profile"
 import { Packs } from "@/features/packs/Packs"
 import { Cards } from "@/features/cards/Cards"
-import { Learn } from "@/features/learn/Learn"
 import { Login } from "@/features/login/Login"
 import { Register } from "@/features/register/Register"
 import { NewPassword } from "@/features/newPassword/NewPassword"
 import { ForgotPassword } from "@/features/forgotPassword/ForgotPassword"
 import { ToolBar } from "@/features/toolBar/ToolBar"
+import { Learn } from "@/features/learn/Learn"
 
 const AuthGuard: FC<PropsWithChildren & { isPrivate?: boolean }> = ({
   children,
@@ -25,7 +25,7 @@ const AuthGuard: FC<PropsWithChildren & { isPrivate?: boolean }> = ({
     )
   }
   return isAuth ? (
-    <Navigate to={"/cards"} replace />
+    <Navigate to={"/packs"} replace />
   ) : (
     <ToolBar>{children}</ToolBar>
   )
@@ -38,12 +38,12 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
+    path: "/profile",
     element: (
       <AuthGuard isPrivate>
         <Profile />
       </AuthGuard>
     ),
-    path: "/profile",
   },
   {
     path: "/packs",

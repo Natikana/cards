@@ -30,7 +30,6 @@ const slice = createSlice({
     profile: {} as ProfileType,
     isAuth: false as boolean,
     isInitialized: false as boolean,
-    info: {},
   },
   reducers: {
     setAuthMe: (state, action: PayloadAction<{ isAuth: boolean }>) => {
@@ -51,15 +50,15 @@ const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(register.fulfilled, (state, action) => {})
-    builder.addCase(register.rejected, (state, action) => {
+    /*builder.addCase(register.rejected, (state, action) => {
       state.error = action.error.message
-    })
-    builder.addCase(login.fulfilled, (state) => {
+    })*/
+    builder.addCase(login.fulfilled, (state, action) => {
       state.isAuth = true
     })
-    builder.addCase(login.rejected, (state, action) => {
+    /*builder.addCase(login.rejected, (state, action) => {
       state.error = action.error.message
-    })
+    })*/
     builder.addCase(me.fulfilled, (state, action) => {
       state.profile = action.payload.profile
       state.isAuth = true
@@ -67,39 +66,18 @@ const slice = createSlice({
     })
     builder.addCase(me.rejected, (state, action) => {
       state.isInitialized = true
-      state.error = action.error.message
     })
     builder.addCase(meUpdate.fulfilled, (state, action) => {
       state.profile = action.payload.profile.updatedUser
     })
-    builder.addCase(meUpdate.rejected, (state, action) => {
-      state.error = action.error.message
-    })
+
     builder.addCase(logout.fulfilled, (state, action) => {
       state.isAuth = false
     })
-    builder.addCase(logout.rejected, (state, action) => {
-      state.error = action.error.message
-    })
+
     builder.addCase(forgotPassword.fulfilled, (state, action) => {
-      state.info = action.payload.info.info
+      //state.info = action.payload.info.info
     })
-    builder.addCase(forgotPassword.rejected, (state, action) => {
-      state.profile.name = action.type
-    })
-    builder.addCase(setNewPassword.fulfilled, (state, action) => {
-      state.info = action.payload.info.info
-    })
-    builder.addCase(setNewPassword.rejected, (state, action) => {
-      //state.profile.updated = action.type
-    })
-    /* builder.addCase(blockUser.fulfilled, (state, action) => {
-      console.log("block", action)
-    })
-    builder.addCase(blockUser.rejected, (state, action) => {
-      //state.profile.updated = action.type
-      console.log("blockR", action.type)
-    })*/
   },
 })
 export const register = createAppAsyncThunk<
@@ -117,28 +95,13 @@ export const register = createAppAsyncThunk<
     true,
   )
 })
-/*export const register = createAppAsyncThunk<
-  {
-    profile: { addedUser: ProfileType }
-  },
-  RegisterType
->(THUNK_PREFIX.REGISTER, async (arg, thunkAPI) => {
-  const { rejectWithValue } = thunkAPI
-  const res = await authApi.register(arg)
-  console.log(res)
-  if (res.statusText === "Created") {
-    return { profile: res.data }
-  } else {
-    console.log(res)
-    return rejectWithValue(res)
-  }
-})*/
 
 export const login = createAppAsyncThunk<{ profile: ProfileType }, LoginType>(
   THUNK_PREFIX.LOGIN,
   async (arg, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
       const res = await authApi.login(arg)
+      thunkAPI.dispatch(setProfile({ profile: res.data }))
       toast("Hi, we like to see you again)")
       return { profile: res.data }
     })

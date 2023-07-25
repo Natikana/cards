@@ -23,7 +23,9 @@ export const Login = () => {
       .unwrap()
       .then((res) => {
         if (res.profile) {
-          navigate("/cards")
+          navigate(
+            `/profile?_id=${res.profile._id}&name=${res.profile.name}&email=${res.profile.email}`,
+          )
         }
       })
       .catch()
@@ -103,7 +105,7 @@ export const Login = () => {
             </div>
           </div>
           <Link
-            to="/forgot-password"
+            to={"/forgot-password"}
             className={`${cl.commonText} ${cl.linkFogPas}`}
           >
             Forgot Password?

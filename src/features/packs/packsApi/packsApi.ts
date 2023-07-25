@@ -7,7 +7,7 @@ export const packsApi = {
       ResponsePacksType,
       AxiosResponse<ResponsePacksType>,
       GetPackType
-    >("/pack", {
+    >("pack", {
       params: {
         packName: values.packName,
         max: values.max,
@@ -25,7 +25,7 @@ export const packsApi = {
       CreatePackType,
       AxiosResponse<CreatePackType>,
       { cardsPack: ArgCreatePackType }
-    >("/pack", { cardsPack })
+    >("pack", { cardsPack })
   },
   removePack: (id?: string) => {
     return packsInstance.delete<RemovePackType>(`/pack?id=${id}`)
@@ -87,6 +87,7 @@ export type PackType = {
   created: string
   updated: string
   __v: number
+  deckCover: string
 }
 export type ResponsePacksType = {
   cardPacks: PackType[]

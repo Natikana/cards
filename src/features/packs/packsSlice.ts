@@ -19,7 +19,7 @@ const THUNK_PREFIX = {
   UPDATE_PACK: "pack/updatePack",
 }
 const slice = createSlice({
-  name: "cards",
+  name: "packs",
   initialState: {
     cardPacks: [] as PackType[],
     page: 1,
@@ -34,6 +34,7 @@ const slice = createSlice({
       if (!state.params) {
         state.params = {}
       }
+
       state.params = { ...state.params, ...action.payload }
     },
     clearParams: (state) => {
@@ -45,21 +46,21 @@ const slice = createSlice({
       return { ...state, ...action.payload }
     })
     builder.addCase(createPack.fulfilled, (state, action) => {
-      state.cardPacks.unshift(action.payload.newCardsPack)
+      //state.cardPacks.unshift(action.payload.newCardsPack)
     })
     builder.addCase(updatePack.fulfilled, (state, action) => {
-      const idPack = state.cardPacks.findIndex(
+      /* const idPack = state.cardPacks.findIndex(
         (el) => el._id === action.payload.updatedCardsPack._id,
       )
       if (idPack !== -1) {
         state.cardPacks[idPack] = action.payload.updatedCardsPack
-      }
+      }*/
     })
     builder.addCase(removePack.fulfilled, (state, action) => {
-      const idPack = state.cardPacks.findIndex(
+      /* const idPack = state.cardPacks.findIndex(
         (el) => el._id === action.payload.deletedCardsPack._id,
       )
-      state.cardPacks.splice(idPack, 1)
+      state.cardPacks.splice(idPack, 1)*/
     })
   },
 })
@@ -92,8 +93,7 @@ export const getsPack = createAppAsyncThunk<ResponsePacksType, GetPackType>(
   THUNK_PREFIX.GET_PACK,
   async (arg, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
-      const params = thunkAPI.getState().packs.params
-      const res = await packsApi.getPack(params ?? {})
+      const res = await packsApi.getPack(arg)
       return res.data
     })
   },

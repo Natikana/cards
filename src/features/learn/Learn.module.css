@@ -1,0 +1,80 @@
+.box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 420px;
+  background-color: #171717;
+  border: 1px solid #333;
+  border-radius: 2px 2px 0 0;
+  font-size: 18px;
+  color: #fff;
+  font-weight: 700;
+  line-height: 24px;
+  height: 288px;
+}
+.correctHiegth {
+  height: 540px;
+}
+.modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 33px 36px 48px 36px;
+}
+.title {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 36px;
+}
+.mainContext {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.text {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #ffffff;
+}
+.textQue {
+  margin-top: 45px;
+}
+.textAns {
+  margin-top: 35px;
+}
+.textLeg {
+  margin-top: 12px;
+}
+.secondText {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #808080;
+}
+.radioGroup {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+}
+.radioInput {
+  height: 15px;
+  width: unset;
+}
+.btn {
+  width: 348px;
+  height: 36px;
+  margin-top: 41px;
+  border-radius: 4px;
+  background: #8c61ff;
+  box-shadow: 0 4px 18px 0 rgba(140, 97, 255, 0.35);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 24px;
+  color: #ffffff;
+}

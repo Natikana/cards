@@ -6,33 +6,30 @@ import TableContainer from "@mui/material/TableContainer"
 import TableHead from "@mui/material/TableHead"
 import TableRow from "@mui/material/TableRow"
 import Paper from "@mui/material/Paper"
-import { useAppDispatch, useAppSelector } from "@/main/hooks"
+import { useAppDispatch } from "@/main/hooks"
 import { packsThunk } from "@/features/packs/packsSlice"
 import { PackType } from "@/features/packs/packsApi/packsApi"
-import { Statuses } from "@/features/app/app.slice"
-import UpdateIcon from "@mui/icons-material/Update"
-import VisibilityIcon from "@mui/icons-material/Visibility"
-import DeleteIcon from "@mui/icons-material/Delete"
-import { IconButton } from "@mui/material"
-import TableSortLabel from "@mui/material/TableSortLabel"
 import { loadingSelector } from "@/features/app/app.selector"
 import { profileSelector } from "@/features/auth/auth.selector"
 import { useSelector } from "react-redux"
 import { cardPacksSelector } from "@/features/packs/packs.selector"
+import { Link, useNavigate } from "react-router-dom"
+import { ModalDelete } from "@/common/basicModal/modalDelete/ModalDelete"
+import { ModalPack } from "@/common/basicModal/modalPack/ModalPack"
+import VisibilityIcon from "@mui/icons-material/Visibility"
 
 export const PacksList = () => {
   const packs = useSelector(cardPacksSelector)
-  const isLoading = useSelector(loadingSelector)
   const my_id = useSelector(profileSelector)._id
   const dispatch = useAppDispatch()
-
   const onHandlerUpdatePack = (pack: PackType) => {
     dispatch(
       packsThunk.updatePack({
         cardsPack: {
           ...pack,
           _id: pack._id,
-          name: "Sasha",
+          name: pack.name,
+          private: pack.private,
         },
       }),
     )
@@ -46,6 +43,7 @@ export const PacksList = () => {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
+            <TableCell align="center"></TableCell>
             <TableCell align="center">Name</TableCell>
             <TableCell align="center">Cards</TableCell>
             <TableCell align="center">LastUpdated</TableCell>
@@ -58,32 +56,61 @@ export const PacksList = () => {
             return (
               <TableRow
                 key={row._id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                sx={{
+                  "&:last-child td, &:last-child th": { border: 0 },
+                  opacity: row.cardsCount === 0 ? "0.5" : "",
+                }}
               >
-                <TableCell align="center">{row.name}</TableCell>
+                <TableCell align="center">
+                  {row.deckCover && row.user_id === my_id ? (
+                    <img
+                      src={row.deckCover}
+                      alt={"cover"}
+                      style={{ width: "30px" }}
+                    />
+                  ) : (
+                    ""
+                  )}
+                </TableCell>
+                <TableCell align="center">
+                  {row.cardsCount === 0 && row.user_id !== my_id ? (
+                    <span>{row.name}</span>
+                  ) : (
+                    <Link to={`/cards?cardsPack_id=${row._id}`}>
+                      {row.name}
+                    </Link>
+                  )}
+                </TableCell>
                 <TableCell align="center">{row.cardsCount}</TableCell>
                 <TableCell align="center">
                   {row.updated.slice(0, 10).split("-").reverse().join(".")}
                 </TableCell>
                 <TableCell align="center">{row.user_name}</TableCell>
                 <TableCell align="center">
-                  <IconButton disabled={row.cardsCount === 0}>
+                  {row.cardsCount === 0 ? (
                     <VisibilityIcon />
-                  </IconButton>
+                  ) : (
+                    <Link
+                      to={`/learn?cardsPack_id=${row._id}&packName=${row.name}&cardsTotalCount=${row.cardsCount}`}
+                    >
+                      <VisibilityIcon />
+                    </Link>
+                  )}
                   {row.user_id === my_id && (
                     <>
-                      <IconButton
-                        onClick={() => onHandlerRemovePack(row._id)}
-                        disabled={isLoading === Statuses.loading}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                      <IconButton
-                        onClick={() => onHandlerUpdatePack(row)}
-                        disabled={isLoading === Statuses.loading}
-                      >
-                        <UpdateIcon />
-                      </IconButton>
+                      <ModalDelete
+                        nameModalBtn={"Delete Pack"}
+                        titleModal={row.name}
+                        onHandlerRequest={() => onHandlerRemovePack(row._id)}
+                      />
+
+                      <ModalPack
+                        titleEditBtn={"Save Changes"}
+                        pack={row}
+                        onHandlerRequest={onHandlerUpdatePack}
+                        nameModalBtn={"Edit Pack"}
+                        from={"PacksList"}
+                      />
                     </>
                   )}
                 </TableCell>
