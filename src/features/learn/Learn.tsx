@@ -1,5 +1,6 @@
 import * as React from "react"
 import { FC, useEffect, useState } from "react"
+import commonStyle from "@/common/styles/CommomStyles.module.css"
 import cl from "./Learn.module.css"
 import { useSelector } from "react-redux"
 import { pageSelector } from "@/features/packs/packs.selector"
@@ -8,6 +9,9 @@ import { useAppDispatch } from "@/main/hooks"
 import { setCardsParams, thunkCards } from "@/features/cards/cardsSlice"
 import { CardType } from "@/features/cards/cardsApi/cardsApi"
 import { cardsSelector } from "@/features/cards/cards.selector"
+import leftArrow from "@/commonAccess/leftArrow.png"
+import { ButtonLarge } from "@/common/components/buttonLarge/ButtonLarge"
+import { Title } from "@/common/components/title/Title"
 
 const grades = [
   "Did not know",
@@ -88,40 +92,37 @@ export const Learn: FC = () => {
     }
   }
   return (
-    <div>
-      <Link
-        style={{
-          textDecoration: "none",
-          paddingTop: "30px",
-          display: "inline-block",
-        }}
-        to={`/packs?page=${page}`}
-      >
-        back to the Packs list
+    <div className={cl.learn}>
+      <Link className={cl.linkBlock} to={`/packs?page=${page}`}>
+        <img src={leftArrow} alt={"leftArrow"} />
+        <span className={commonStyle.commonText}>Back to Packs List</span>
       </Link>
+
       <div
-        className={!isChecked ? `${cl.box}` : `${cl.box} ${cl.correctHiegth}`}
+        className={!isChecked ? `${cl.box}` : `${cl.box} ${cl.correctHeight}`}
       >
         <div className={cl.modal}>
-          <span className={cl.title}>{`Learn ${searchParams.packName}`}</span>
+          <Title
+            className={cl.correctTitle}
+            title={`Learn "${searchParams.packName}"`}
+          />
           <div className={cl.mainContext}>
             <span
               className={`${cl.text} ${cl.textQue}`}
             >{`Question: ${card.question}`}</span>
             <span
-              className={cl.secondText}
+              className={
+                isChecked
+                  ? `${cl.secondText} ${cl.correctAnswer}`
+                  : `${cl.secondText}`
+              }
             >{`Number of attempts to answer a question: ${card.shots}`}</span>
-            {!isChecked && (
-              <button onClick={() => setIsChecked(true)} className={cl.btn}>
-                Show Answer
-              </button>
-            )}
             {isChecked && (
               <div>
                 <span
                   className={`${cl.text} ${cl.textAns}`}
                 >{`Answer: ${card.answer}`}</span>
-                <div>
+                <div className={cl.radioSection}>
                   <legend className={`${cl.text} ${cl.textLeg}`}>
                     Rate yourself:
                     {grades.map((el, i) => {
@@ -138,18 +139,28 @@ export const Learn: FC = () => {
                               setChoice(e.currentTarget.checked)
                             }}
                           />
-                          <label className={cl.secondText}>{el}</label>
+                          <label
+                            className={`${cl.secondText}${cl.correctMark}`}
+                          >
+                            <span className={cl.correctTextMark}>{el}</span>
+                          </label>
                         </div>
                       )
                     })}
                   </legend>
                 </div>
-                <button onClick={onNext} className={cl.btn}>
-                  Next Question
-                </button>
               </div>
             )}
           </div>
+          {isChecked ? (
+            <ButtonLarge fullWidth onClickHandler={onNext}>
+              Next Question
+            </ButtonLarge>
+          ) : (
+            <ButtonLarge fullWidth onClickHandler={() => setIsChecked(true)}>
+              Show Answer
+            </ButtonLarge>
+          )}
         </div>
       </div>
     </div>

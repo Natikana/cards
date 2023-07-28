@@ -1,7 +1,7 @@
 import * as React from "react"
 import Pagination from "@mui/material/Pagination"
 import Stack from "@mui/material/Stack"
-import Typography from "@mui/material/Typography"
+import cl from "./PaginationPacks.module.css"
 import {
   cardPacksTotalCountSelector,
   pageCountSelector,
@@ -9,6 +9,12 @@ import {
 } from "@/features/packs/packs.selector"
 import { useSelector } from "react-redux"
 import { useSearchParams } from "react-router-dom"
+const style = {
+  div: {
+    color: "#8c61ff",
+  },
+  button: { color: "#8c61ff" },
+}
 
 export function PaginationPacks() {
   const pagePack = useSelector(pageSelector)
@@ -26,20 +32,12 @@ export function PaginationPacks() {
 
   return (
     <Stack spacing={2}>
-      <Typography style={{ color: "green" }}>
-        Page: {Math.floor(pagePack)}
-      </Typography>
+      <span className={cl.page}>Page: {Math.floor(pagePack)}</span>
       <Pagination
-        sx={{
-          div: {
-            color: "green",
-          },
-          button: { color: "green" },
-        }}
+        sx={style}
         count={Math.floor(totalPageCount)}
         page={Math.floor(pagePack)}
         onChange={handleChange}
-        color={"primary"}
       />
     </Stack>
   )

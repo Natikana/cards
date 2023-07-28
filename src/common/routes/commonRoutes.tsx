@@ -11,6 +11,7 @@ import { NewPassword } from "@/features/newPassword/NewPassword"
 import { ForgotPassword } from "@/features/forgotPassword/ForgotPassword"
 import { ToolBar } from "@/features/toolBar/ToolBar"
 import { Learn } from "@/features/learn/Learn"
+import { CheckEmail } from "@/features/checkEmail/CheckEmail"
 
 const AuthGuard: FC<PropsWithChildren & { isPrivate?: boolean }> = ({
   children,
@@ -98,6 +99,14 @@ export const router = createBrowserRouter([
     element: (
       <AuthGuard>
         <ForgotPassword />
+      </AuthGuard>
+    ),
+  },
+  {
+    path: "/check-email",
+    element: (
+      <AuthGuard>
+        <CheckEmail />
       </AuthGuard>
     ),
   },

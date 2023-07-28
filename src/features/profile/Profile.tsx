@@ -1,6 +1,5 @@
-import React, { ChangeEvent, FC, useEffect, useRef, useState } from "react"
+import React, { ChangeEvent, FC, useRef, useState } from "react"
 import { useAppDispatch } from "@/main/hooks"
-import cl from "./profile.module.css"
 import { authThunk } from "../auth/auth.slice"
 import { useSelector } from "react-redux"
 import { profileSelector } from "@/features/auth/auth.selector"
@@ -9,6 +8,10 @@ import btnLogoutIcon from "@/commonAccess/log-out.png"
 import defaultAva from "@/commonAccess/user.png"
 import { toast } from "react-toastify"
 import { convertFileToBase64 } from "@/common/utils/convertFileToBase64"
+import commonStyle from "@/common/styles/CommomStyles.module.css"
+import { Title } from "@/common/components/title/Title"
+import { ButtonLarge } from "@/common/components/buttonLarge/ButtonLarge"
+import cl from "./profile.module.css"
 
 export type Props = {}
 export const Profile: FC<Props> = () => {
@@ -72,13 +75,9 @@ export const Profile: FC<Props> = () => {
             : `${cl.profileBlock} ${cl.profileBlockModal}`
         }
       >
-        <h3 className={cl.title}>Personal information</h3>
+        <Title title={"Personal information"} />
         <div className={cl.infoBlock}>
-          <div
-            className={
-              modal ? cl.correctImg : `${cl.correctImg} ${cl.updateAva}`
-            }
-          >
+          <div className={modal ? "" : cl.updateAva}>
             <div className={modal ? cl.modalImg : ""}>
               <img
                 onError={errorHandler}
@@ -106,29 +105,31 @@ export const Profile: FC<Props> = () => {
               </>
             )}
             {modal && (
-              <div className={cl.infoBlock}>
+              <div className={`${cl.infoBlock} ${cl.correctInfoBlock}`}>
                 <div className={cl.inputGroup}>
-                  <span className={cl.text}>NickName</span>
+                  <span className={commonStyle.commonSecondText}>NickName</span>
                   <input
                     onChange={changeName}
                     value={name}
                     placeholder={"Name"}
-                    className={cl.inputChangeName}
+                    className={commonStyle.authInput}
                   />
                 </div>
-                <button
-                  className={cl.btnChangeName}
-                  onClick={updateProfileInfo}
+                <ButtonLarge
+                  onClickHandler={updateProfileInfo}
+                  fullWidth
+                  className={cl.correctBtnModal}
                 >
                   Save Changes
-                </button>
+                </ButtonLarge>
               </div>
             )}
           </div>
           {!modal && (
             <>
               <div className={cl.correctNameBlock}>
-                <h2 className={cl.name}>{nameUser}</h2>
+                <Title className={cl.name} title={nameUser} />
+                {/*<h2 className={cl.name}>{nameUser}</h2>*/}
                 <button
                   className={cl.correctNameBtn}
                   onClick={() => setModal(!modal)}
@@ -140,11 +141,14 @@ export const Profile: FC<Props> = () => {
                   />
                 </button>
               </div>
-              <span className={cl.text}>{email}</span>
-              <button onClick={onHandlerLogout} className={cl.btnLogout}>
+              <span className={commonStyle.commonSecondText}>{email}</span>
+              <ButtonLarge
+                className={cl.btnLogout}
+                onClickHandler={onHandlerLogout}
+              >
                 <img src={btnLogoutIcon} alt={"logout"} />
-                <span>Logout</span>
-              </button>
+                Logout
+              </ButtonLarge>
             </>
           )}
         </div>

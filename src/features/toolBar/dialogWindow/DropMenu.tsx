@@ -86,6 +86,13 @@ export const DropMenu = () => {
           </div>
           <hr className={cl.divider}></hr>
           <MenuItem onClick={handleClose} sx={{ padding: "0" }}>
+            <Link className={cl.link} to={"/packs"}>
+              <img className={cl.iconImg} src={card} alt={"card"} />
+              <span className={`${cl.email} ${cl.text}`}>Packs</span>
+            </Link>
+          </MenuItem>
+          <hr className={cl.divider}></hr>
+          <MenuItem onClick={handleClose} sx={{ padding: "0" }}>
             <Link className={cl.link} to={"/profile"}>
               <img className={cl.iconImg} src={personIcon} alt={"personIcon"} />
               <span className={`${cl.email} ${cl.text}`}>My Profile</span>
@@ -100,13 +107,6 @@ export const DropMenu = () => {
               <img className={cl.iconImg} src={logout} alt={"logout"} />
               <span className={`${cl.email} ${cl.text}`}>Sing Out</span>
             </button>
-          </MenuItem>
-          <hr className={cl.divider}></hr>
-          <MenuItem onClick={handleClose} sx={{ padding: "0" }}>
-            <Link className={cl.link} to={"/packs"}>
-              <img className={cl.iconImg} src={card} alt={"card"} />
-              <span className={`${cl.email} ${cl.text}`}>Packs</span>
-            </Link>
           </MenuItem>
         </div>
       </Menu>

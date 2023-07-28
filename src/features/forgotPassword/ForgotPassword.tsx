@@ -1,12 +1,18 @@
 import React from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate, useSearchParams } from "react-router-dom"
 import { useAppDispatch } from "@/main/hooks"
 import { authThunk } from "@/features/auth/auth.slice"
 import { useForm } from "react-hook-form"
 import { ForgotUserType } from "@/features/auth/auth.api/auth.api"
+import commonStyle from "@/common/styles/CommomStyles.module.css"
+import { Title } from "@/common/components/title/Title"
+import cl from "@/features/forgotPassword/ForgotPassword.module.css"
+import { ButtonLarge } from "@/common/components/buttonLarge/ButtonLarge"
 
 export const ForgotPassword = () => {
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+  const [search, setSearch] = useSearchParams()
 
   const {
     register,
@@ -27,62 +33,48 @@ export const ForgotPassword = () => {
   })
   const onHandlerSubmit = () => {
     setValue("email", getValues("email"))
+    setSearch(getValues("email"))
+    navigate(`/check-email?email=${getValues("email")}`)
   }
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: "30px",
-      }}
-    >
-      <h3>Forgot Password</h3>
-      <form
-        onSubmit={onSubmit}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <input
-          type={"email"}
-          {...register("email", {
-            required: true,
-            pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-            maxLength: 30,
-            minLength: 8,
-            onChange: () => {
-              getValues("email")
-            },
-          })}
-          placeholder={"email"}
-          style={{ height: "40px", width: "250px" }}
-        />
-        <span>
-          <p>
-            Enter your email address and we will send you further instruction
-          </p>
+    <div className={commonStyle.sectionAuth}>
+      <div className={`${commonStyle.formLoginReg} ${cl.formCorrect} `}>
+        <Title title={"Forgot Password"} />
+        <form onSubmit={onSubmit} className={cl.formStyle}>
+          <span className={commonStyle.commonSecondText}>Email</span>
+          <input
+            type={"email"}
+            {...register("email", {
+              required: true,
+              pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+              maxLength: 30,
+              minLength: 8,
+              onChange: () => {
+                getValues("email")
+              },
+            })}
+            placeholder={"email"}
+            className={commonStyle.authInput}
+          />
+          <span>
+            <p
+              className={`${commonStyle.commonSecondText} ${cl.correctHeight}`}
+            >
+              Enter your email address and we will send you further instruction
+            </p>
+          </span>
+          <ButtonLarge onClickHandler={onHandlerSubmit} fullWidth>
+            Send Instructions
+          </ButtonLarge>
+        </form>
+        <span className={commonStyle.commonSecondText}>
+          Did you remember your password?
         </span>
-        <button
-          onClick={onHandlerSubmit}
-          style={{
-            backgroundColor: "blue",
-            color: "white",
-            width: "150px",
-            height: "40px",
-            borderRadius: "3px",
-            border: "none",
-            cursor: "pointer",
-          }}
-        >
-          Send Instructions
-        </button>
-      </form>
-      <span>Did you remember your password?</span>
-      <Link to={"/login"}>Try logging in</Link>
+        <Link to={"/login"} className={commonStyle.colorLink}>
+          Try logging in
+        </Link>
+      </div>
     </div>
   )
 }

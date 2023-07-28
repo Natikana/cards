@@ -1,10 +1,12 @@
 import * as React from "react"
 import Box from "@mui/material/Box"
-import Button from "@mui/material/Button"
 import Modal from "@mui/material/Modal"
 import { FC, useState } from "react"
-import DeleteIcon from "@mui/icons-material/Delete"
+import commonStyle from "@/common/styles/CommomStyles.module.css"
 import cl from "./ModaleDelete.module.css"
+import trash from "@/commonAccess/trash.png"
+import { ButtonLarge } from "@/common/components/buttonLarge/ButtonLarge"
+import { Title } from "@/common/components/title/Title"
 
 const style = {
   position: "absolute" as "absolute",
@@ -35,9 +37,9 @@ export const ModalDelete: FC<PropsType> = ({
 
   return (
     <div>
-      <Button onClick={handleOpen}>
-        <DeleteIcon />
-      </Button>
+      <button onClick={handleOpen} className={cl.iconDeleteBtn}>
+        <img src={trash} alt={"trash"} className={cl.iconDelete} />
+      </button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -47,7 +49,7 @@ export const ModalDelete: FC<PropsType> = ({
         <Box sx={style}>
           <div className={cl.modal}>
             <div className={cl.titleBlock}>
-              <span className={cl.title}>{nameModalBtn}</span>
+              <Title title={nameModalBtn} className={cl.title} />
               <button className={cl.btnClose} onClick={handleClose}>
                 X
               </button>
@@ -57,12 +59,21 @@ export const ModalDelete: FC<PropsType> = ({
               <p>All cards will be deleted.</p>
             </span>
             <div className={cl.btnGroup}>
-              <button onClick={handleClose} className={cl.littleBtn}>
+              <ButtonLarge
+                className={cl.correctCanselBtn}
+                onClickHandler={handleClose}
+              >
                 Cancel
-              </button>
-              <button className={cl.commonBtn} onClick={onHandlerRequest}>
+              </ButtonLarge>
+              <ButtonLarge onClickHandler={onHandlerRequest}>
                 {nameModalBtn}
-              </button>
+              </ButtonLarge>
+              {/*<button onClick={handleClose} className={cl.littleBtn}>
+                Cancel
+              </button>*/}
+              {/* <button className={cl.commonBtn} onClick={onHandlerRequest}>
+                {nameModalBtn}
+              </button>*/}
             </div>
           </div>
         </Box>

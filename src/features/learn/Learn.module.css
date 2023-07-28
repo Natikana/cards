@@ -1,20 +1,27 @@
+.learn {
+  padding: 24px 136px 100px 136px;
+}
+.linkBlock {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+}
 .box {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin: 36px auto 0 auto;
   width: 420px;
-  background-color: #171717;
-  border: 1px solid #333;
+  background-color: var(--backgroundForm);
+  border: 1px solid var(--backgroundApp);
   border-radius: 2px 2px 0 0;
   font-size: 18px;
-  color: #fff;
+  color: var(--textColor);
   font-weight: 700;
   line-height: 24px;
-  height: 288px;
+  min-height: 288px;
 }
-.correctHiegth {
-  height: 540px;
+.correctHeight {
+  min-height: 540px;
 }
 .modal {
   display: flex;
@@ -23,28 +30,28 @@
   align-items: center;
   padding: 33px 36px 48px 36px;
 }
-.title {
-  font-size: 26px;
-  font-weight: 700;
-  line-height: 36px;
+.correctTitle {
+  text-align: center;
 }
 .mainContext {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
+  margin-top: 45px;
 }
 .text {
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 600;
   line-height: 24px;
-  color: #ffffff;
+  color: var(--textColor);
 }
-.textQue {
-  margin-top: 45px;
-}
+
 .textAns {
   margin-top: 35px;
+}
+.radioSection {
+  margin-bottom: 29px;
 }
 .textLeg {
   margin-top: 12px;
@@ -53,7 +60,11 @@
   font-size: 14px;
   font-weight: 400;
   line-height: 24px;
-  color: #808080;
+  color: var(--secondTextColor);
+  margin: 18px 0;
+}
+.correctAnswer {
+  margin-bottom: 11px;
 }
 .radioGroup {
   display: flex;
@@ -66,7 +77,13 @@
   height: 15px;
   width: unset;
 }
-.btn {
+.correctMark {
+  margin: 0;
+}
+.correctTextMark {
+  font-weight: 300;
+}
+/*.btn {
   width: 348px;
   height: 36px;
   margin-top: 41px;
@@ -77,4 +94,4 @@
   font-weight: 700;
   line-height: 24px;
   color: #ffffff;
-}
+}*/

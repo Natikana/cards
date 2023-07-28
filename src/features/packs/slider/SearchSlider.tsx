@@ -7,7 +7,13 @@ import { Slider } from "@mui/material"
 import { useSearchParams } from "react-router-dom"
 import { useEffect } from "react"
 import { setParams } from "@/features/packs/packsSlice"
-import { useAppDispatch, useAppSelector } from "@/main/hooks"
+import { useAppDispatch } from "@/main/hooks"
+import cl from "./SearchSlider.module.css"
+import {
+  maxCardsCountSelector,
+  paramsSelector,
+} from "@/features/packs/packs.selector"
+import { useSelector } from "react-redux"
 
 const Input = styled(MuiInput)`
   width: 42px;
@@ -16,17 +22,14 @@ const Input = styled(MuiInput)`
 export const SearchSlider = () => {
   const dispatch = useAppDispatch()
 
-  const maxCards = useAppSelector((state) => state.packs.maxCardsCount)
-  const params = useAppSelector((state) => state.packs.params)
+  const maxCards = useSelector(maxCardsCountSelector)
+  const params = useSelector(paramsSelector)
 
   const [search, setSearch] = useSearchParams()
   const [value, setValue] = React.useState<number[]>([0, maxCards])
 
   useEffect(() => {
     if (search) dispatch(setParams({ ...Object.fromEntries(search) }))
-    //const min = ({ ...Object.fromEntries(search) } as GetPackType).min
-    //const max = ({ ...Object.fromEntries(search) } as GetPackType).max
-    //if (min && max) setValue([min, max])
   }, [])
 
   useEffect(() => {
@@ -65,24 +68,11 @@ export const SearchSlider = () => {
   function valuetext(value: number) {
     return `${value}°C`
   }
-  /* const handleBlur = () => {
-      if (+value[0] < 0) {
-        setValue([0])
-      } else if (+value[0] > 100) {
-        setValue([100])
-      }
-    }
-    const handleBlur2 = () => {
-      if (+value[1] < 0) {
-        setValue([0])
-      } else if (+value[1] > 100) {
-        setValue([100])
-      }
-    }*/
-  const handleChange = (event: Event, newValue: any) => {
-    const s = Object.fromEntries(search)
 
-    setSearch({ ...s, min: newValue[0], max: newValue[1] })
+  const handleChange = (event: Event, newValue: any) => {
+    const searchParams = Object.fromEntries(search)
+
+    setSearch({ ...searchParams, min: newValue[0], max: newValue[1] })
     setValue(newValue as number[])
   }
   const handleChangeCommited = (
@@ -98,14 +88,14 @@ export const SearchSlider = () => {
     <Box sx={{ width: 250 }}>
       <Grid container spacing={2} alignItems="center">
         <Grid item>
+          <div className={cl.count}>{value[0]}</div>
           <Input
             style={{
-              color: "green",
+              display: "none",
             }}
             value={value[0]}
             size="small"
             onChange={handleInputChange}
-            /* onBlur={handleBlur}*/
             inputProps={{
               step: 1,
               min: 0,
@@ -124,17 +114,18 @@ export const SearchSlider = () => {
             valueLabelDisplay="auto"
             max={maxCards ?? 100}
             getAriaValueText={valuetext}
+            sx={{ color: "#8C61FF" }}
           />
         </Grid>
         <Grid item>
+          <div className={cl.count}>{value[1]}</div>
           <Input
             style={{
-              color: "red",
+              display: "none",
             }}
             value={value[1]}
             size="small"
             onChange={handleInputChange2}
-            /*onBlur={handleBlur2}*/
             inputProps={{
               step: 1,
               min: 0,

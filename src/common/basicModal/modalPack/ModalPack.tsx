@@ -1,26 +1,16 @@
 import * as React from "react"
 import Box from "@mui/material/Box"
-import Button from "@mui/material/Button"
 import cl from "./ModalPack.module.css"
 import Modal from "@mui/material/Modal"
 import { ChangeEvent, FC, useState } from "react"
-import { useAppSelector } from "@/main/hooks"
-import { IconButton } from "@mui/material"
-import UpdateIcon from "@mui/icons-material/Update"
 import { PackType } from "@/features/packs/packsApi/packsApi"
-const styleBtn = {
-  width: "146px",
-  height: "36px",
-  borderRadius: "4px",
-  background: "#8c61ff",
-  boxShadow: "0 4px 18px 0 rgba(140, 97, 255, 0.35)",
-  fontSize: "14px",
-  fontWeight: "400",
-  lineHeight: "24px",
-  color: "#fff",
-  textTransform: "capitalize",
-  hover: "#8c61ff",
-}
+import { useSelector } from "react-redux"
+import { packNameSelector } from "@/features/cards/cards.selector"
+import { ButtonLarge } from "@/common/components/buttonLarge/ButtonLarge"
+import iconUpdate from "@/commonAccess/iconUpdate.png"
+import commonStyle from "@/common/styles/CommomStyles.module.css"
+import { Title } from "@/common/components/title/Title"
+
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
@@ -55,7 +45,7 @@ export const ModalPack: FC<PropsType> = ({
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
-  const packName = useAppSelector((state) => state.packs.params?.packName)
+  const packName = useSelector(packNameSelector)
   const [title, setTitle] = useState(packName ?? "")
   const [check, setCheck] = useState(false)
   const checkFromPack = from === "Packs"
@@ -77,20 +67,17 @@ export const ModalPack: FC<PropsType> = ({
         _id: pack._id,
       })
     }
-
     handleClose()
   }
 
   return (
     <div>
       {checkFromPack ? (
-        <Button sx={styleBtn} onClick={handleOpen}>
-          {nameModalBtn}
-        </Button>
+        <ButtonLarge onClickHandler={handleOpen}>{nameModalBtn}</ButtonLarge>
       ) : (
-        <IconButton onClick={handleOpen}>
-          <UpdateIcon />
-        </IconButton>
+        <button onClick={handleOpen} className={cl.updateIconPack}>
+          <img src={iconUpdate} alt={"iconUpdate"} />
+        </button>
       )}
 
       <Modal
@@ -102,18 +89,18 @@ export const ModalPack: FC<PropsType> = ({
         <Box sx={style}>
           <div className={cl.modal}>
             <div className={cl.titleBlock}>
-              <span className={cl.title}>{nameModalBtn}</span>
+              <Title title={nameModalBtn} className={cl.title} />
               <button className={cl.btnClose} onClick={handleClose}>
                 X
               </button>
             </div>
             <div className={cl.textGroup}>
-              <span className={cl.secondText}>{cl.text}</span>
+              <span className={commonStyle.commonSecondText}>Name Pack</span>
               <input
                 value={title}
                 onChange={onChangeTitle}
                 placeholder={"Name"}
-                className={cl.inputText}
+                className={`${commonStyle.authInput} ${cl.correctInput}`}
               />
               <div className={cl.inputCheckGroup}>
                 <input
@@ -122,17 +109,20 @@ export const ModalPack: FC<PropsType> = ({
                   type={"checkbox"}
                   className={cl.inputCheckBox}
                 />
-                <span className={cl.secondText}>Private pack</span>
+                <span className={commonStyle.commonText}>Private pack</span>
               </div>
             </div>
 
             <div className={cl.btnGroup}>
-              <button onClick={handleClose} className={cl.littleBtn}>
+              <ButtonLarge
+                className={cl.correctCanselBtn}
+                onClickHandler={handleClose}
+              >
                 Cancel
-              </button>
-              <button className={cl.commonBtn} onClick={onHandlerPack}>
+              </ButtonLarge>
+              <ButtonLarge onClickHandler={onHandlerPack}>
                 {checkFromPackList ? titleEditBtn : nameModalBtn}
-              </button>
+              </ButtonLarge>
             </div>
           </div>
         </Box>

@@ -8,6 +8,11 @@ import { useDispatch } from "react-redux"
 import { isAuthSelector } from "@/features/auth/auth.selector"
 import { useSelector } from "react-redux"
 import { useAppDispatch } from "@/main/hooks"
+import commonStyle from "@/common/styles/CommomStyles.module.css"
+import { Title } from "@/common/components/title/Title"
+import { ButtonLarge } from "@/common/components/buttonLarge/ButtonLarge"
+import cl from "@/features/register/Register.module.css"
+import btnLogoutIcon from "@/commonAccess/log-out.png"
 
 export const Register = () => {
   const dispatch = useAppDispatch()
@@ -43,125 +48,152 @@ export const Register = () => {
   }
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: "30px",
-      }}
-    >
-      <h3>Sing Up</h3>
-      <form
-        onSubmit={onSubmit}
-        style={{
-          width: "300px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: "10px",
-        }}
-      >
-        <input
-          {...register("email", {
-            required: true,
-            pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-            maxLength: 30,
-            minLength: 8,
-            onChange: () => {
-              getValues("email")
-            },
-          })}
-          placeholder={"email"}
-          type={"email"}
-          style={{ height: "40px", width: "250px" }}
-        />
-        {errors?.email?.type === "required" && (
-          <p style={{ color: "red" }}>This field is required</p>
-        )}
-        {errors?.email?.type === "maxLength" && (
-          <p style={{ color: "red" }}>Email cannot more 30 characters</p>
-        )}
-        {errors?.email?.type === "minLength" && (
-          <p style={{ color: "red" }}>Email cannot less 8 characters</p>
-        )}
-        {errors?.email?.type === "pattern" && (
-          <p style={{ color: "red" }}>Invalid email address</p>
-        )}
-        <input
-          {...register("password", {
-            required: true,
-            maxLength: 20,
-            minLength: 8,
-            pattern: /[A-Z0-9._%+-]/g,
-            onChange: () => {
-              getValues("password")
-            },
-          })}
-          placeholder={"password"}
-          type={"password"}
-          style={{ height: "40px", width: "250px" }}
-        />
-        {errors?.password?.type === "required" && (
-          <p style={{ color: "green" }}>This field is required</p>
-        )}
-        {errors?.password?.type === "maxLength" && (
-          <p style={{ color: "red" }}>Password cannot more 20 characters</p>
-        )}
-        {errors?.password?.type === "minLength" && (
-          <p style={{ color: "red" }}>Password cannot less 8 characters</p>
-        )}
-        {errors?.password?.type === "pattern" && (
-          <p style={{ color: "red" }}>Invalid password</p>
-        )}
-
-        <input
-          {...register("confirm_password", {
-            required: true,
-            validate: (val: string) => {
-              if (watch("password") !== val) {
+    <div className={commonStyle.sectionAuth}>
+      <div className={commonStyle.formLoginReg}>
+        <Title title={"Sing Up"} />
+        <form onSubmit={onSubmit} className={cl.formStyle}>
+          <div className={cl.inputBlock}>
+            <span className={commonStyle.commonSecondText}>Email</span>
+            <input
+              {...register("email", {
+                required: true,
+                pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                maxLength: 30,
+                minLength: 8,
+                onChange: () => {
+                  getValues("email")
+                },
+              })}
+              placeholder={"email"}
+              type={"email"}
+              className={commonStyle.authInput}
+            />
+            {errors?.email?.type === "required" && (
+              <p
+                className={`${commonStyle.commonSecondText} ${cl.warningText}`}
+              >
+                This field is required
+              </p>
+            )}
+            {errors?.email?.type === "maxLength" && (
+              <p
+                className={`${commonStyle.commonSecondText} ${cl.warningText}`}
+              >
+                Email cannot more 30 characters
+              </p>
+            )}
+            {errors?.email?.type === "minLength" && (
+              <p
+                className={`${commonStyle.commonSecondText} ${cl.warningText}`}
+              >
+                Email cannot less 8 characters
+              </p>
+            )}
+            {errors?.email?.type === "pattern" && (
+              <p
+                className={`${commonStyle.commonSecondText} ${cl.warningText}`}
+              >
+                Invalid email address
+              </p>
+            )}
+            <span
+              className={
                 errors.password
-                  ? setError("confirm_password", {
-                      type: "manual",
-                      message: "Your passwords do no match",
-                    })
-                  : null
-                return "Your passwords do no match"
+                  ? `${commonStyle.commonSecondText}`
+                  : `${commonStyle.commonSecondText} ${cl.correctTextInput}`
               }
-            },
-          })}
-          placeholder={"confirm password"}
-          type={"password"}
-          style={{ height: "40px", width: "250px" }}
-        />
-        {errors.confirm_password && (
-          <span style={{ color: "red" }}>
-            {errors.confirm_password.message}
-          </span>
-        )}
-
-        <button
-          type={"submit"}
-          onClick={onHandlerSubmit}
-          style={{
-            backgroundColor: "blue",
-            color: "white",
-            width: "150px",
-            height: "40px",
-            borderRadius: "3px",
-            border: "none",
-            cursor: "pointer",
-          }}
-        >
-          Sing up
-        </button>
-      </form>
-      <span style={{ color: "gray", fontSize: "12" }}>
-        Already have an account?
-      </span>
-      <Link to={"/login"} style={{ color: "blue", fontSize: "16" }}>
-        Sing In
-      </Link>
+            >
+              Password
+            </span>
+            <input
+              {...register("password", {
+                required: true,
+                maxLength: 20,
+                minLength: 8,
+                pattern: /[A-Z0-9._%+-]/g,
+                onChange: () => {
+                  getValues("password")
+                },
+              })}
+              placeholder={"password"}
+              type={"password"}
+              className={commonStyle.authInput}
+            />
+            {errors?.password?.type === "required" && (
+              <p
+                className={`${commonStyle.commonSecondText} ${cl.warningText}`}
+              >
+                This field is required
+              </p>
+            )}
+            {errors?.password?.type === "maxLength" && (
+              <p
+                className={`${commonStyle.commonSecondText} ${cl.warningText}`}
+              >
+                Password cannot more 20 characters
+              </p>
+            )}
+            {errors?.password?.type === "minLength" && (
+              <p
+                className={`${commonStyle.commonSecondText} ${cl.warningText}`}
+              >
+                Password cannot less 8 characters
+              </p>
+            )}
+            {errors?.password?.type === "pattern" && (
+              <p
+                className={`${commonStyle.commonSecondText} ${cl.warningText}`}
+              >
+                Invalid password
+              </p>
+            )}
+            <span
+              className={
+                errors.confirm_password
+                  ? `${commonStyle.commonSecondText}`
+                  : `${commonStyle.commonSecondText} ${cl.correctTextInput}`
+              }
+            >
+              Confirm Password
+            </span>
+            <input
+              {...register("confirm_password", {
+                required: true,
+                validate: (val: string) => {
+                  if (watch("password") !== val) {
+                    errors.password
+                      ? setError("confirm_password", {
+                          type: "manual",
+                          message: "Your passwords do no match",
+                        })
+                      : null
+                    return "Your passwords do no match"
+                  }
+                },
+              })}
+              placeholder={"confirm password"}
+              type={"password"}
+              className={commonStyle.authInput}
+            />
+            {errors.confirm_password && (
+              <span
+                className={`${commonStyle.commonSecondText} ${cl.warningText}`}
+              >
+                {errors.confirm_password.message}
+              </span>
+            )}
+          </div>
+          <ButtonLarge onClickHandler={onHandlerSubmit} fullWidth>
+            Sing Up
+          </ButtonLarge>
+        </form>
+        <span className={commonStyle.commonSecondText}>
+          Already have an account?
+        </span>
+        <Link to={"/login"} className={commonStyle.colorLink}>
+          Sing In
+        </Link>
+      </div>
     </div>
   )
 }

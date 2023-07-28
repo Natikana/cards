@@ -5,6 +5,9 @@ import { useAppDispatch } from "@/main/hooks"
 import { authThunk } from "../auth/auth.slice"
 import { Link, useNavigate } from "react-router-dom"
 import cl from "./Login.module.css"
+import { Title } from "@/common/components/title/Title"
+import { ButtonLarge } from "@/common/components/buttonLarge/ButtonLarge"
+import commonStyle from "@/common/styles/CommomStyles.module.css"
 
 export const Login = () => {
   const dispatch = useAppDispatch()
@@ -28,7 +31,7 @@ export const Login = () => {
           )
         }
       })
-      .catch()
+      .catch((e) => console.log("Error"))
   })
 
   const onHandlerSubmit = () => {
@@ -37,14 +40,13 @@ export const Login = () => {
   }
 
   return (
-    <div className={cl.login}>
-      <div className={cl.loginSection}>
-        <h3 className={cl.singInText}>Sing in</h3>
-        <form onSubmit={onSubmit} className={cl.formLogin}>
+    <div className={commonStyle.sectionAuth}>
+      <div className={commonStyle.formLoginReg}>
+        <Title title={"Sing In"} />
+        <form onSubmit={onSubmit} className={cl.formStyle}>
           <div className={cl.inputBlock}>
-            <span className={cl.commonText}>Email</span>
+            <span className={commonStyle.commonSecondText}>Email</span>
             <input
-              className={cl.inputEmail}
               {...register("email", {
                 required: true,
                 pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
@@ -54,20 +56,33 @@ export const Login = () => {
                   getValues("email")
                 },
               })}
+              className={`${commonStyle.authInput} ${cl.inputEmail}`}
               placeholder={"email"}
               type={"email"}
             />
             {errors?.email?.type === "required" && (
-              <p>This field is required</p>
+              <p
+                className={`${commonStyle.commonSecondText} ${cl.warningText}`}
+              >
+                This field is required
+              </p>
             )}
             {errors?.email?.type === "maxLength" && (
-              <p>Email cannot more than 30 characters</p>
+              <p
+                className={`${commonStyle.commonSecondText} ${cl.warningText}`}
+              >
+                Email cannot more than 30 characters
+              </p>
             )}
             {errors?.email?.type === "minLength" && (
-              <p>Email cannot less 8 characters</p>
+              <p
+                className={`${commonStyle.commonSecondText} ${cl.warningText}`}
+              >
+                Email cannot less 8 characters
+              </p>
             )}
             {errors?.email?.type === "pattern" && <p>Invalid email address</p>}
-            <span className={cl.commonText}>Password</span>
+            <span className={commonStyle.commonSecondText}>Password</span>
             <input
               {...register("password", {
                 required: true,
@@ -78,50 +93,59 @@ export const Login = () => {
                   getValues("password")
                 },
               })}
+              className={commonStyle.authInput}
               placeholder={"password"}
               type={"password"}
             />
             {errors?.password?.type === "required" && (
-              <p>This field is required</p>
+              <p
+                className={`${commonStyle.commonSecondText} ${cl.warningText}`}
+              >
+                This field is required
+              </p>
             )}
             {errors?.password?.type === "maxLength" && (
-              <p>Password cannot more 20 characters</p>
+              <p
+                className={`${commonStyle.commonSecondText} ${cl.warningText}`}
+              >
+                Password cannot more 20 characters
+              </p>
             )}
             {errors?.password?.type === "minLength" && (
-              <p>Password cannot less 8 characters</p>
+              <p
+                className={`${commonStyle.commonSecondText} ${cl.warningText}`}
+              >
+                Password cannot less 8 characters
+              </p>
             )}
             {errors?.password?.type === "pattern" && <p>Invalid password</p>}
             <div className={cl.inputCheckBlock}>
               <input
-                className={cl.inputCheck}
                 {...register("rememberMe", {
                   onChange: () => {
                     getValues("rememberMe")
                   },
                 })}
+                className={cl.inputCheck}
                 type={"checkbox"}
               />
-              <span className={cl.commonText}>Remember me</span>
+              <span className={commonStyle.commonSecondText}>Remember me</span>
             </div>
           </div>
           <Link
             to={"/forgot-password"}
-            className={`${cl.commonText} ${cl.linkFogPas}`}
+            className={`${commonStyle.commonSecondText} ${cl.linkFogPas}`}
           >
             Forgot Password?
           </Link>
-          <button
-            className={`${cl.commonBtn} ${cl.loginBtn}`}
-            type={"submit"}
-            onClick={onHandlerSubmit}
-          >
-            Sing in
-          </button>
+          <ButtonLarge onClickHandler={onHandlerSubmit} fullWidth>
+            Sing In
+          </ButtonLarge>
         </form>
-        <span className={`${cl.commonText} ${cl.regText}`}>
+        <span className={commonStyle.commonSecondText}>
           Don't have an account?
         </span>
-        <Link to={"/register"} className={cl.linkSingUp}>
+        <Link to={"/register"} className={commonStyle.colorLink}>
           Sing Up
         </Link>
       </div>

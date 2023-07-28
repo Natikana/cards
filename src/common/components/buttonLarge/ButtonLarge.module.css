@@ -1,0 +1,16 @@
+.largeBtn {
+  background-color: var(--linkTextColor);
+  box-shadow: 0 4px 18px 0 rgba(140, 97, 255, 0.35);
+  border-radius: 4px;
+  color: var(--textColor);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px;
+  cursor: pointer;
+  border: none;
+  padding: 6px 28px;
+  text-wrap: nowrap;
+}
+.full {
+  width: 100%;
+}

@@ -6,10 +6,12 @@ import { ChangeEvent, FC, useRef, useState } from "react"
 import cl from "@/features/cards/modalCreateCard/CreateCardModal.module.css"
 import { useSearchParams } from "react-router-dom"
 import { CardType } from "@/features/cards/cardsApi/cardsApi"
-import UpdateIcon from "@mui/icons-material/Update"
+import commonStyle from "@/common/styles/CommomStyles.module.css"
 import { convertFileToBase64 } from "@/common/utils/convertFileToBase64"
 import { toast } from "react-toastify"
-import questionCard from "@/commonAccess/questionCard.png"
+import book from "@/commonAccess/book.png"
+import iconUpdate from "@/commonAccess/iconUpdate.png"
+import { ButtonLarge } from "@/common/components/buttonLarge/ButtonLarge"
 
 const styleBtn = {
   width: "146px",
@@ -66,7 +68,7 @@ export const BasicModalCard: FC<PropsType> = ({
   const [open, setOpen] = useState(false)
   const [question, setQuestion] = useState(card?.question ?? "")
   const [answer, setAnswer] = useState(card?.answer ?? "")
-  const [cover, setCover] = useState(questionCard)
+  const [cover, setCover] = useState(book)
 
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
@@ -121,15 +123,14 @@ export const BasicModalCard: FC<PropsType> = ({
   return (
     <div>
       {isCheckFromCards ? (
-        <Button className={cl.commonBtn} onClick={handleOpen} sx={styleBtn}>
-          Add New Card
-        </Button>
+        <ButtonLarge className={cl.commonBtn} onClickHandler={handleOpen}>
+          {titleBtn}
+        </ButtonLarge>
       ) : (
         <Button onClick={handleOpen}>
-          <UpdateIcon />
+          <img src={iconUpdate} alt={"iconUpdate"} />
         </Button>
       )}
-
       <Modal
         open={open}
         onClose={handleClose}
@@ -139,24 +140,22 @@ export const BasicModalCard: FC<PropsType> = ({
         <Box sx={style}>
           <div className={cl.titleBlock}>
             <span>{title}</span>
-            <button
-              style={{
-                background: "#171717",
-                border: "none",
-                color: "#FFF",
-                cursor: "pointer",
-              }}
-              onClick={handleClose}
-            >
+            <button className={commonStyle.closeBtn} onClick={handleClose}>
               X
             </button>
           </div>
           <div className={cl.inputGroup}>
-            <span className={cl.secondText}>Text</span>
-            <select name={"Text"} className={cl.inputText}>
-              <option value={question}>text</option>
-              <option value={cover}>picture</option>
-            </select>
+            <div>
+              <span className={cl.secondText}>Text</span>
+              <select
+                name={"Text"}
+                className={`${commonStyle.authInput} ${cl.inputText} ${cl.correctSelect}`}
+              >
+                <option value={question}>text</option>
+                <option value={cover}>picture</option>
+              </select>
+            </div>
+
             <div>
               <input
                 type={"file"}
@@ -165,42 +164,42 @@ export const BasicModalCard: FC<PropsType> = ({
                 onChange={uploadHandlerCover}
                 accept={"image/png"}
               />
-              <button
-                className={`${cl.commonBtn} ${cl.coverBtn}`}
-                onClick={selectFile}
-              >
+              <ButtonLarge onClickHandler={selectFile} fullWidth>
                 Change Cover
-              </button>
+              </ButtonLarge>
             </div>
-
-            <span className={`${cl.secondText}  ${cl.secondTextAdd}`}>
-              Question
-            </span>
-            <input
-              value={question}
-              onChange={onChangeQuestion}
-              placeholder={"Question"}
-              className={cl.inputText}
-            />
-            <span className={`${cl.secondText}  ${cl.secondTextAdd}`}>
-              Answer
-            </span>
-            <input
-              value={answer}
-              onChange={onChangeAnswer}
-              placeholder={"Answer"}
-              className={cl.inputText}
-            />
+            <div>
+              <span className={`${cl.secondText}  ${cl.secondTextAdd}`}>
+                Question
+              </span>
+              <input
+                value={question}
+                onChange={onChangeQuestion}
+                placeholder={"Question"}
+                className={`${commonStyle.authInput} ${cl.inputText}`}
+              />
+            </div>
+            <div>
+              <span className={`${cl.secondText}  ${cl.secondTextAdd}`}>
+                Answer
+              </span>
+              <input
+                value={answer}
+                onChange={onChangeAnswer}
+                placeholder={"Answer"}
+                className={`${commonStyle.authInput} ${cl.inputText}`}
+              />
+            </div>
           </div>
-          <div>
-            <div className={cl.btnGroup}>
-              <button className={cl.littleBtn} onClick={onHandlerCancel}>
-                Cancel
-              </button>
-              <button className={cl.commonBtn} onClick={createCard}>
-                {titleBtn}
-              </button>
-            </div>
+
+          <div className={cl.btnGroup}>
+            <ButtonLarge
+              onClickHandler={onHandlerCancel}
+              className={cl.correctCanselBtn}
+            >
+              Cancel
+            </ButtonLarge>
+            <ButtonLarge onClickHandler={createCard}>{titleBtn}</ButtonLarge>
           </div>
         </Box>
       </Modal>

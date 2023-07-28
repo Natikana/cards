@@ -9,15 +9,22 @@ import Paper from "@mui/material/Paper"
 import { useAppDispatch } from "@/main/hooks"
 import { packsThunk } from "@/features/packs/packsSlice"
 import { PackType } from "@/features/packs/packsApi/packsApi"
-import { loadingSelector } from "@/features/app/app.selector"
 import { profileSelector } from "@/features/auth/auth.selector"
 import { useSelector } from "react-redux"
 import { cardPacksSelector } from "@/features/packs/packs.selector"
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { ModalDelete } from "@/common/basicModal/modalDelete/ModalDelete"
 import { ModalPack } from "@/common/basicModal/modalPack/ModalPack"
-import VisibilityIcon from "@mui/icons-material/Visibility"
+import cl from "./PacksList.module.css"
+import iconPlay from "@/commonAccess/iconPlay.png"
 
+export const stylesCell = {
+  color: "#ffff",
+  fontSize: "14px",
+  fontWeight: "700",
+  lineHeight: "24px",
+  borderBottom: "0",
+}
 export const PacksList = () => {
   const packs = useSelector(cardPacksSelector)
   const my_id = useSelector(profileSelector)._id
@@ -38,62 +45,81 @@ export const PacksList = () => {
     dispatch(packsThunk.removePack({ _id: idPack }))
   }
 
-  return packs.length ? (
+  return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
-          <TableRow>
-            <TableCell align="center"></TableCell>
-            <TableCell align="center">Name</TableCell>
-            <TableCell align="center">Cards</TableCell>
-            <TableCell align="center">LastUpdated</TableCell>
-            <TableCell align="center">CreatedBy</TableCell>
-            <TableCell align="center"></TableCell>
+          <TableRow
+            sx={{
+              backgroundColor: "#333",
+              border: "1px solid #333",
+            }}
+          >
+            <TableCell align="center" sx={stylesCell}>
+              Name
+            </TableCell>
+            <TableCell align="center" sx={stylesCell}>
+              Cards
+            </TableCell>
+            <TableCell align="center" sx={stylesCell}>
+              Last Updated
+            </TableCell>
+            <TableCell align="center" sx={stylesCell}>
+              CreatedBy
+            </TableCell>
+            <TableCell align="center" sx={stylesCell}></TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
+        <TableBody sx={{ backgroundColor: "#000" }}>
           {packs.map((row) => {
             return (
               <TableRow
                 key={row._id}
                 sx={{
                   "&:last-child td, &:last-child th": { border: 0 },
-                  opacity: row.cardsCount === 0 ? "0.5" : "",
+                  opacity: row.cardsCount === 0 ? "0.3" : "",
+                  borderBottom: "0",
+                  border: "1px solid #333",
                 }}
               >
-                <TableCell align="center">
-                  {row.deckCover && row.user_id === my_id ? (
-                    <img
-                      src={row.deckCover}
-                      alt={"cover"}
-                      style={{ width: "30px" }}
-                    />
-                  ) : (
-                    ""
-                  )}
-                </TableCell>
-                <TableCell align="center">
+                <TableCell align="center" sx={stylesCell}>
                   {row.cardsCount === 0 && row.user_id !== my_id ? (
-                    <span>{row.name}</span>
+                    <span className={cl.cell}>{row.name}</span>
                   ) : (
-                    <Link to={`/cards?cardsPack_id=${row._id}`}>
-                      {row.name}
+                    <Link
+                      className={cl.cell}
+                      to={`/cards?cardsPack_id=${row._id}&user_id=${row.user_id}&packName=${row.name}`}
+                    >
+                      <div className={cl.cellWithIcon}>
+                        {row.deckCover && row.user_id === my_id && (
+                          <img
+                            src={row.deckCover}
+                            alt={"cover"}
+                            width={"25px"}
+                          />
+                        )}
+                        <span>{row.name}</span>
+                      </div>
                     </Link>
                   )}
                 </TableCell>
-                <TableCell align="center">{row.cardsCount}</TableCell>
-                <TableCell align="center">
+                <TableCell align="center" sx={stylesCell}>
+                  {row.cardsCount}
+                </TableCell>
+                <TableCell align="center" sx={stylesCell}>
                   {row.updated.slice(0, 10).split("-").reverse().join(".")}
                 </TableCell>
-                <TableCell align="center">{row.user_name}</TableCell>
-                <TableCell align="center">
+                <TableCell align="center" sx={stylesCell}>
+                  {row.user_name}
+                </TableCell>
+                <TableCell align="center" sx={stylesCell}>
                   {row.cardsCount === 0 ? (
-                    <VisibilityIcon />
+                    <img src={iconPlay} alt={"iconPlay"} />
                   ) : (
                     <Link
                       to={`/learn?cardsPack_id=${row._id}&packName=${row.name}&cardsTotalCount=${row.cardsCount}`}
                     >
-                      <VisibilityIcon />
+                      <img src={iconPlay} alt={"iconPlay"} />
                     </Link>
                   )}
                   {row.user_id === my_id && (
@@ -120,14 +146,5 @@ export const PacksList = () => {
         </TableBody>
       </Table>
     </TableContainer>
-  ) : (
-    <h2
-      style={{
-        color: "whitesmoke",
-      }}
-    >
-      "Ups, The packs with current names are found. Try to change parameters of
-      searching"
-    </h2>
   )
 }

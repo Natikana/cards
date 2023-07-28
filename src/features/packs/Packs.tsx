@@ -10,7 +10,11 @@ import { PaginationPacks } from "@/features/packs/paginationPacks/PaginationPack
 import { useSelector } from "react-redux"
 import { profileSelector } from "@/features/auth/auth.selector"
 import { ModalPack } from "@/common/basicModal/modalPack/ModalPack"
-import question from "@/commonAccess/question.png"
+import book from "@/commonAccess/book.png"
+import { Title } from "@/common/components/title/Title"
+import commonStyle from "@/common/styles/CommomStyles.module.css"
+import { ButtonLarge } from "@/common/components/buttonLarge/ButtonLarge"
+import trash from "@/commonAccess/trash.png"
 
 export const Packs = () => {
   const dispatch = useAppDispatch()
@@ -41,7 +45,7 @@ export const Packs = () => {
         cardsPack: {
           name: pack.name,
           private: pack.private,
-          deckCover: question,
+          deckCover: book,
         },
       }),
     )
@@ -72,7 +76,7 @@ export const Packs = () => {
   return (
     <div className={cl.packs}>
       <div className={cl.blockTitle}>
-        <h3 style={{ color: "green" }}>Packs list</h3>
+        <Title title={"Packs list"} />
         <ModalPack
           from={"Packs"}
           onHandlerRequest={onHandlerCreateUserPack}
@@ -84,37 +88,35 @@ export const Packs = () => {
           <input
             value={value}
             onChange={handleChange}
-            placeholder={"search the packs"}
+            placeholder={"Input search"}
             type={"search"}
             className={cl.searchingInput}
           />
           <div className={cl.blockSwitchCards}>
-            <div className={cl.blockSwitchMyCards}>
-              <span style={{ fontSize: "14px", color: "white" }}>
-                Show packs cards
-              </span>
-              <button onClick={showMyPacks} className={cl.btnCards}>
-                My cards
-              </button>
+            <div>
+              <div className={commonStyle.commonText}>Show packs cards</div>
+              <div className={cl.blockSwitchMyCardsButtons}>
+                <ButtonLarge onClickHandler={showMyPacks}>My Cards</ButtonLarge>
+                <ButtonLarge
+                  onClickHandler={showAllPacks}
+                  className={cl.bgColorBtnAllCard}
+                >
+                  All cards
+                </ButtonLarge>
+              </div>
             </div>
-            <button
-              onClick={showAllPacks}
-              className={`${cl.btnCards} ${cl.btnChangeCards}`}
-            >
-              All cards
-            </button>
           </div>
           <div className={cl.blockInputsRange}>
-            <span style={{ fontSize: "14px", color: "white" }}>
-              Number of cards
-            </span>
-            <div className={cl.blockInputs}>
-              <SearchSlider />
-            </div>
+            <span className={commonStyle.commonText}>Number of cards</span>
+            <SearchSlider />
           </div>
-          <button onClick={onHandlerClearFilter} className={cl.btnFilter}>
+          <ButtonLarge
+            onClickHandler={onHandlerClearFilter}
+            className={cl.bgColorClearFilter}
+          >
+            <img src={trash} alt={"trash"} />
             Clear Filter
-          </button>
+          </ButtonLarge>
         </div>
       </div>
       <PacksList />

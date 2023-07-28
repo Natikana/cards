@@ -1,0 +1,18 @@
+.formStyle {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 27px 36px 20px 36px;
+}
+.inputBlock {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-bottom: 54px;
+}
+.correctTextInput {
+  margin-top: 24px;
+}
+.warningText {
+  color: green;
+}

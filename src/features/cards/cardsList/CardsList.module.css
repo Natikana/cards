@@ -1,0 +1,16 @@
+.emptyPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.correctTitle {
+  padding: 30px;
+  text-align: center;
+}
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
